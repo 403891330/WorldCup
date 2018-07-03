@@ -1,0 +1,184 @@
+@charset "utf-8";
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,i,b{margin: 0; padding: 0; font: 12px 'Microsoft Yahei',Tahoma,Simsun;}
+body{background-color:#f2f2f2;min-width: 1200px;margin:0 auto; font: 12px 'Microsoft Yahei',Tahoma,Simsun;}
+input,textarea,select,button,i{ font: 12px 'Microsoft Yahei',Tahoma,Simsun;}
+*{ word-wrap: break-word;}
+i,em{font-style: normal;}
+b,h1,h2,h3{ font-weight:normal;}
+ul,ol,li,dl,dt,dd{list-style: none;}
+a{text-decoration: none; color:#444;}
+a:hover{text-decoration:none; color:#248DCC;}
+a:link,a:visited{outline: none;}
+img,a img{border:none;}
+table{border-collapse:collapse;empty-cells:show}
+input {border:none;background:none;outline: none;}
+
+
+.underline{text-decoration:underline;}
+.through{text-decoration:line-through;}
+.ftc {text-align:center;}
+.bold {font-weight:bold;}
+
+/******width******/
+.w1200{width:1200px;}
+.w1000{width:1000px;}
+.w100{width:100%;}
+
+
+/******字体*****/
+.ft12{font-size:12px;}
+.ft13{font-size:13px;}
+.ft14{font-size:14px;}
+.ft15{font-size:15px;}
+.ft16{font-size:16px;}
+.ft18{font-size:18px;}
+.ft20{font-size:20px;}
+.ft24{font-size:24px;}
+.ft26{font-size:26px;}
+.ft30{font-size:30px;}
+
+
+/******div层属性******/
+.fl{float:left;}
+.fr{float:right;}
+.clear{clear:both;}
+.clearfix1:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix1{*zoom:1}
+:after, :before {box-sizing:content-box;-webikit-box-sizing:content-box;}
+
+.rela,.rel{position:relative;}
+.abs{position:absolute;}
+.fixd{position:fixed;}
+.overflow{overflow:hidden;}
+.textover {overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
+
+
+/******间隔******/
+.ct{margin:0 auto;}
+.mt5{margin-top:5px;}
+.mb5{margin-bottom:5px;}
+.ml5{margin-left:5px;}
+.mr5{margin-right:5px;}
+
+.mt10{margin-top:10px;}
+.mb10{margin-bottom:10px;}
+.ml10{margin-left:10px;}
+.mr10{margin-right:10px;}
+
+.mt15{margin-top:15px;}
+.mb15{margin-bottom:15px;}
+.ml15{margin-left:15px;}
+.mr15{margin-right:15px;}
+
+.mt20{margin-top:20px;}
+.mb20{margin-bottom:20px;}
+.ml20{margin-left:20px;}
+.mr20{margin-right:20px;}
+
+.pt5{padding-top:5px;}
+.pb5{padding-bottom:5px;}
+.pl5{padding-left:5px;}
+.pr5{padding-right:5px;}
+
+.pt10{padding-top:10px;}
+.pb10{padding-bottom:10px;}
+.pl10{padding-left:10px;}
+.pr10{padding-right:10px;}
+
+.pt15{padding-top:15px;}
+.pb15{padding-bottom:15px;}
+.pl15{padding-left:15px;}
+.pr15{padding-right:15px;}
+
+.pt20{padding-top:20px;}
+.pb20{padding-bottom:20px;}
+.pl20{padding-left:20px;}
+.pr20{padding-right:20px;}
+
+.pad5{padding:5px;}
+.pad10{padding:10px;}
+.pad20{padding:20px;}
+.pad30{padding:30px;}
+.textover{ overflow:hidden; white-space:nowrap; word-wrap:normal; text-overflow:ellipsis;}
+
+.bgfff {background:#fff;}
+.cfff {color:#fff;}
+.cf0 {color:#f03e3e;}
+.c666 {color:#666;}
+.c999 {color:#999;}
+/*公共头部*/
+.wrapper {
+    width:1000px;
+    margin:0 auto;
+}
+.top {
+    height:79px;
+    border-bottom:1px solid #efefef;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:10;
+}
+.top .nav {
+  padding-left:11%;
+}
+.top .item {
+    width:70px;
+    height:79px;
+    line-height:80px;
+    text-align:center;
+    cursor: pointer;
+    margin-right:10px;
+    font-size:16px;
+}
+.top .item.active {
+    border-bottom:2px solid #f03e3e;
+    color:#f03e3e;
+    font-weight:bold;
+}
+.top .logo {
+    width:10%;
+    left:0;
+    top:25px;
+}
+.top .total {
+    line-height:40px;
+    height:40px;
+    position:relative;
+    margin-top:20px;
+    background:url(../images/cashlogo.png) center left no-repeat;
+    padding-left:20px;
+    padding-bottom:0;
+}
+.top .total .name {
+	display:inline-block;
+	height:40px;
+	line-height:40px;
+}
+.top .total span {
+	display:inline-block;
+	height:40px;
+	padding:0 20px;
+	background:url(../images/cashbg.png) center center no-repeat;
+	background-size:100% 100%;
+	-webkit-background-size:100% 100%;
+	-moz-background-size:100% 100%;
+	-ms-background-size:100% 100%;
+	height:40px;
+	line-height:40px;
+	font-size:22px;
+}
+/*底部样式*/
+.bottom {
+    padding:10px 0;
+    background:#fff;
+    margin-top:50px;
+}
+.bottom img {
+  display:inline-block;
+}
+.list {
+  padding-top:80px;
+  /* padding-bottom:228px; */
+}

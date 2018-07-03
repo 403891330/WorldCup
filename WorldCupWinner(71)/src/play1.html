@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>2018竞猜世界杯</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+		<link href="css/play1.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="top rela bgfff">
+       <div class="wrapper rela">
+           <img src="images/logo.png" alt="" class="abs logo">
+           <div class="nav clearfix1 ft16 c666">
+               <a class="fl item" href="index.html">首页</a>
+               <a class="fl item" href="deal.html">购买记录</a>
+               <a class="fl item" href="record.html">中奖纪录</a>
+               <div class="fr total bold ft14"><em class="name fl ft14">总奖金池</em><span class="bold cfff ml10 fl"><em id="createteam" class="ft20">0</em><em class="ft12">ETH</em></span> </div>
+           </div>
+       </div>
+  </div>
+		  <div class="list pt10"></div>
+		    <div class="total">
+		  	    <div class="wrapper bgfff">
+		  	         <div class="status clearfix1">
+		  	            <span class="fl ft16 check">请选择</span>
+			              <ul class="fl checklist">
+			              	 <li class="zhu1 first fl" id="">
+			              	 	<div class="lazy" data-param=""></div>
+			              	 	<p class="cf0 ft16"></p>
+			              	 </li>
+			              	 <li class="zhu2 second fl" id="">
+			              	    <div class="lazy" data-param=""></div>
+                          <p class="cf0 ft16"></p>
+			              	 </li>
+			              	 <li class="zhu3 third fl" id="">
+			              	 	  <div class="lazy" data-param=""></div>
+                          <p class="cf0 ft16"></p>
+			              	 </li>
+			              </ul>
+		              	  <span class="tips ft14 c999 fl">（请选择您所看好的球队）</span>
+		             </div>
+		             <div class="cash pt10 pb10 clearfix1">
+		             	<div class="fl ft14 cf0 money">总金额<span class="cf0 ml20 bold">0</span><em class="ft14 bold">ETH</em></div>
+		             	<div class="fr"><span class="fl ft14 c666">注数</span><input type="text" id="txtNumber" onkeyup="value=value.replace(/[^0-9]/ig,'')"   class="fl ft18" value="1"><span class="fl buy ft18 cfff ftc" id="">购买</span></div>
+		             </div>
+		  	    </div>
+		  </div>
+		    <!-- <div class="bottom ftc">
+		      <p class="mt20">联系我们</p>
+		      <p class="mt20"><img src="images/con1.png" alt=""><img class="ml10" src="images/con2.png" alt=""></p>
+		      <p class="mt20">0x78d9de056ae45cdbd22f0111ecc7d181a7f94386</p>
+		      <p class="mt20">Copyright 2018 © WorldCup | 募捐: 0x78d9de056ae45cdbd22f0111ecc7d</p>
+		    </div> -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/jquery-1.10.2.js" ></script>
+    <script src="js/loading.js"></script>
+    <script>
+    //总价
+    let totalPrice  ;
+    function getObjectKeys(object)
+      {
+          var keys = [];
+          for (var property in object)
+              keys.push(property);
+          return keys;
+      }
+
+    function getData(){
+      loading();
+      App.getGameListFun(1).then(function(result){
+            App.getListTeamByIdFun(result).then(function(result1){
+              //计算总注数
+              App.getTraddingOneFun("","0","latest").then(function(resultHistory){
+                //传入所有队伍，所有购买历史
+                orderGroup(result1,resultHistory);
+              }).catch(function(err){
+                console.log(err.message);
+              });
+
+            });
+          }).catch(function(){
+      });
+    }
+    App.init().then(function(result){
+      //拉取奖金池
+       getPool();
+      //拉取数据
+       getData();
+    });
+
+
+
+    function orderGroup(teams,buylist){
+
+      //价格
+      var teamesPriceArry = teams[2];
+      //team
+      var teamesArry = teams[1];
+      var teamsGroup = new Array;
+
+      teamsGroup["A"] = [];
+      teamsGroup["B"] = [];
+      teamsGroup["C"] = [];
+      teamsGroup["D"] = [];
+      teamsGroup["E"] = [];
+      teamsGroup["F"] = [];
+      teamsGroup["G"] = [];
+      teamsGroup["H"] = [];
+      //固定32支队伍
+      for(var i = 0;i<teamsJson.length;i++){
+
+        var info =  teamsJson[i];
+        var itemId = teamesArry[i].toNumber();
+        var price = teamesPriceArry[i].toNumber();
+
+        //更改价格
+        if(info.id == itemId)
+        {
+          info.price = price;
+        }
+
+        //计算购买总注数
+        for (var j = 0; j < buylist.length; j++) {
+          var item =  buylist[j];
+          //购买注数
+          let total =  item['buyTotal'].toNumber();
+          //冠
+          let first =  item['first'].toNumber();
+          //亚
+          let second =  item['second'].toNumber();
+          //季
+          let third =  item['three'].toNumber();
+          //冠军票数累加
+          if(info.id == first)
+          {
+            info.firs_votes += total;
+          }
+          //亚军票数累加
+          else if (info.id == second)
+          {
+            info.second_votes += total;
+          }
+          //季军票数累加
+          else if (info.id == third) {
+            info.third_votes += total;
+          }
+        }
+        //分组
+        var arryInfo = teamsGroup[info.group];
+          arryInfo.push(info);
+        }
+
+        // $(".list ").remove();
+        //拼接html
+        appendHtml(teamsGroup);
+
+
+      }
+      //拉取对应的注数数据
+      function getTraddingList()
+      {
+        App.getTraddingOneFun("","0","latest");
+      }
+
+      ///拼接HTML数据
+      function appendHtml(data){
+        //获得所有key
+        var keys =  getObjectKeys(data);
+        for (var i = 0; i < keys.length; i++) {
+          //对应的分组名称
+          var group = keys[i];
+          //取出每组对应的4支队伍
+          var teamsarry = data[group];
+          var  html = '<div class="wrapper">'
+                      +'<div class="sort ft18 cfff bold">'+group+'组</div>'
+                      +'<div class="clearfix1 teams bgfff">'
+                      +'<div class="fl team rela" data-id='+teamsarry[0].id+'>'
+                      +'<span class="stance abs"></span>'
+                      +'<div class="img ftc">'
+                      +'<img src="images/'+teamsarry[0].id+'_img.png" alt="">'
+                      +'</div>'
+                      +'<p class="ftc ft18 mt10 nation">'+teamsarry[0].c_name+'</p>'
+                      +'<p class="price cf0 ft14 ftc mt10">竞猜价: <span>'+web3.fromWei(teamsarry[0].price)+'</span>ETH</p>'
+                      +'<div class="zhu mt10 c666">'
+                      +'<div class="fl zhu1 ft14">'+teamsarry[0].firs_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu2 ft14">'+teamsarry[0].second_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu3 ft14">'+teamsarry[0].third_votes+'<span class="ft12">注</span></div>'
+                      +'</div>'
+                      +'</div>'
+                      +'<div class="fl team rela" data-id='+teamsarry[1].id+'>'
+                      +'<span class="stance abs"></span>'
+                      +'<div class="img ftc" >'
+                      +'<img src="images/'+teamsarry[1].id+'_img.png" alt="">'
+                      +'</div>'
+                      +'<p class="ftc ft18 mt10 nation">'+teamsarry[1].c_name+'</p>'
+                      +'<p class="price cf0 ft14 ftc mt10">竞猜价: <span>'+web3.fromWei(teamsarry[1].price)+'</span>ETH</p>'
+                      +'<div class="zhu mt10 c666">'
+                      +'<div class="fl zhu1 ft14">'+teamsarry[1].firs_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu2 ft14">'+teamsarry[1].second_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu3 ft14">'+teamsarry[1].third_votes+'<span class="ft12">注</span></div>'
+                      +'</div>'
+                      +'</div>'
+                      +'<div class="fl team rela" data-id='+teamsarry[2].id+'>'
+                      +'<span class="stance abs"></span>'
+                      +'<div class="img ftc" >'
+                      +'<img src="images/'+teamsarry[2].id+'_img.png" alt="">'
+                      +'</div>'
+                      +'<p class="ftc ft18 mt10 nation">'+teamsarry[2].c_name+'</p>'
+                      +'<p class="price cf0 ft14 ftc mt10">竞猜价: <span>'+web3.fromWei(teamsarry[2].price)+'</span>ETH</p>'
+                      +'<div class="zhu mt10 c666">'
+                      +'<div class="fl zhu1 ft14">'+teamsarry[2].firs_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu2 ft14">'+teamsarry[2].second_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu3 ft14">'+teamsarry[2].third_votes+'<span class="ft12">注</span></div>'
+                      +'</div>'
+                      +'</div>'
+                      +'<div class="fl team rela" data-id='+teamsarry[3].id+'>'
+                      +'<span class="stance abs"></span>'
+                      +'<div class="img ftc">'
+                      +'<img src="images/'+teamsarry[3].id+'_img.png" alt="">'
+                      +'</div>'
+                      +'<p class="ftc ft18 mt10 nation">'+teamsarry[3].c_name+'</p>'
+                      +'<p class="price cf0 ft14 ftc mt10">竞猜价: <span>'+web3.fromWei(teamsarry[3].price)+'</span>ETH</p>'
+                      +'<div class="zhu mt10 c666">'
+                      +'<div class="fl zhu1 ft14">'+teamsarry[3].firs_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu2 ft14">'+teamsarry[3].second_votes+'<span class="ft12">注</span></div>'
+                      +'<div class="fl zhu3 ft14">'+teamsarry[3].third_votes+'<span class="ft12">注</span></div>'
+                      +'</div>'
+                      +'</div>'
+                      +'</div>'
+                      +'</div>';
+                      $(".list ").append(html);
+        }
+        //关闭菊花
+        hiddenLoading();
+      }
+      ///拉取奖金池
+      function getPool() {
+        App.getPoolNew().then(function(result){
+          // console.log(result.c[0],"1111")
+           $("#createteam").text(web3.fromWei(result,'ether')) ;
+        });
+      }
+      //输入值变化
+      // function ChangValue (obj)
+      // {
+      //     console.log(obj.value);
+      // }
+
+      var num = true;
+      var totals =parseInt(0);
+      var nation,id,flag;
+      $(function(){
+        $(".list").on("click",".team",function(){
+            if(!$(this).hasClass("active")){
+              if(num<4){
+                $(this).addClass("active");
+                 id = $(this).attr("data-id");
+                 flag = $(this).find(".img img").attr("src");
+                 nation = $(this).find(".nation").html();
+                 total = $(this).find(".price span").text();
+                 if($(".first .lazy").html().length == 0){
+                   $(".first .lazy").append('<img width="90" height="52" src="'+flag+'" alt="">');
+                   $(".first").find("p").text(nation);
+                   $(".first").attr("id","zhu"+id);
+                   $(".first .lazy").attr("data-param",id);
+                   num++;
+                   totals += parseFloat(total);
+                   $(".cash .money span").text(totals);
+                   // return false;
+                 }else if($(".second .lazy").html().length == 0){
+                   $(".second .lazy").append('<img width="90" height="52" src="'+flag+'" alt="">');
+                   $(".second").find("p").text(nation);
+                   $(".second").attr("id","zhu"+id);
+                   $(".second .lazy").attr("data-param",id);
+                   num++;
+                   totals += parseFloat(total);
+                   $(".cash .money span").text(totals);
+                 }else if($(".third .lazy").html().length == 0){
+                   $(".third .lazy").append('<img width="90" height="52" src="'+flag+'" alt="">');
+                   $(".third").find("p").text(nation);
+                   $(".third").attr("id","zhu"+id);
+                   $(".third .lazy").attr("data-param",id);
+                   num++;
+                   totals += parseFloat(total);
+                   $(".cash .money span").text(totals);
+                 }
+               }
+            }else {
+              num--;
+              $(this).removeClass("active");
+              id = $(this).attr("data-id");
+              total = $(this).find(".price span").text();
+              totals -= parseFloat(total);
+              $(".cash .money span").text(totals);
+              $("#zhu" + id).find("img").remove();
+              $("#zhu" + id).find("p").text("");
+              $("#zhu" + id).find(".lazy").attr("data-param","");
+              $("#zhu" + id).removeAttr("id");
+            }
+          if($(".checklist").find("img").length == 3){
+            num == 3;
+            $(".status .check").text("已选择");
+            $(".status .tips").hide();
+            //计算总价
+            calculateTotalPrice();
+          }else {
+            $(".status .check").text("请选择");
+            $(".status .tips").show();
+          }
+        });
+        $(".cash .buy").on("click",function(){
+          buy();
+        });
+
+      });
+      function buy()
+      {
+        if($(".first .lazy").attr("data-param")){
+          var team1 = $(".first .lazy").attr("data-param");
+          var team2 = $(".second .lazy").attr("data-param");
+          var team3 = $(".third .lazy").attr("data-param");
+          var number = document.getElementById("txtNumber").value;
+          if (number <=0) {
+            alert("购买注数必须大于0!");
+            return ;
+          }
+          App.buyTeamOneFun(0,team1,team2,team3,number,totalPrice).then(function(result){
+            alert("购买成功");
+            //重新刷新当前界面
+            window.location.reload();
+            //菊花
+            loading();
+          }).catch(function(err){
+            console.log(err.message);
+          });
+      }
+    };
+
+      $("#txtNumber").on('input',function(){
+        calculateTotalPrice();
+      });
+
+
+      //计算总价
+      function calculateTotalPrice()
+      {
+        var cash = $(".money span");
+        var num = $("#txtNumber").val();
+        let value = cash.text(); //num!=0 &&   value != '0.00'
+        if (num && typeof(num)!="undefined" && num!='' )
+        {
+          totalPrice =  num *  totals;
+          cash.text(totalPrice);
+        }
+      };
+      function loading()
+      {
+        $('body').loading({
+          loadingWidth:240,
+          title:'加载中...',
+          name:'play1',
+          discription:'',
+          direction:'column',
+          type:'origin',
+          // originBg:'#71EA71',
+          originDivWidth:40,
+          originDivHeight:40,
+          originWidth:6,
+          originHeight:6,
+          smallLoading:false,
+          loadingMaskBg:'rgba(0,0,0,0.2)'
+        });
+      }
+       function hiddenLoading()
+       {
+         	removeLoading('play1');
+       }
+
+    </script>
+  </body>
+</html>

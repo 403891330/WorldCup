@@ -1,0 +1,74 @@
+.list .title {
+	background:#fff url(../images/arrow.png) center left no-repeat;
+	height:58px;
+	line-height:58px;
+	font-size:20px;
+	margin-top:40px;
+	padding-left:40px;
+}
+.list .items {
+	padding:20px 50px;
+	margin-top:30px;
+}
+.list .team {
+	width:274px;
+}
+.list .teamnation {
+	border:1px solid #e5e5e5;
+	padding:20px 0;
+}
+.list .num {
+	height:40px;
+}
+.list .num span {
+	height:40px;
+	line-height:40px;
+}
+.list .team input {
+	width:98px;
+	height:38px;
+	border:1px solid #e5e5e5;
+	margin:0 10px 0 20px;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+}
+.list .team .buy {
+	width:100px;
+	height:40px;
+	line-height:40px;
+	background:#f03e3e;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	cursor: pointer;
+}
+.list .vs {
+	width:350px;
+}
+.list .status {
+	display:inline-block;
+	height:24px;
+	line-height:24px;
+	padding:0 10px;
+	background:#3aade0;
+	border-radius:2px;
+	-webkit-border-radius:2px;
+	-moz-border-radius:2px;
+	-ms-border-radius:2px;
+}
+.list .status.sai {
+	background:#f03e3e;
+}
+.list .vs .cash {
+	background:url(../images/caibg.png) no-repeat;
+	background-size:100%;
+	-webkit-background-size:100%;
+	-moz-background-size:100%;
+	-ms-background-size:100%;
+	line-height:42px;
+	display:inline-block;
+	padding:0 32px;
+}

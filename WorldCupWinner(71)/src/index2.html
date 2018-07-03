@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>TutorialToken - Wallet</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+
+      <button class="btn btn-primary" id="createteam" type="button">创建比赛</button>
+      <br></br>
+      玩法类型(1,2) <input type="text" id="createType"></input>
+      <br></br>
+      参赛球队编号ID','隔开 <input type="text" id="create_id"></input>
+      <br></br>
+      参赛球队价格(ETH)','隔开 <input type="text" id="create_price"></input>
+      <br></br>
+      开始时间(只能传入时间戳) <input type="text" id="beginTime"></input>
+      <br></br>
+      <br></br>
+      <button class="btn btn-primary" id="buyteam" type="button">玩法一购买</button>
+      <br></br>
+      冠、亚、季、军编号ID','隔开 <input type="text" id="buyteam_id"></input>
+      <br></br>
+      购买注数 <input type="text" id="buyteam_number"></input>
+      <br></br>
+      场次编号 <input type="text" id="buyteam_gameid"></input>
+      <br></br>
+      总价 <input type="text" id="buyteam_total"></input>
+      <br></br>
+
+      <button class="btn btn-primary" id="buytwoteam" type="button">玩法二购买</button>
+      <br></br>
+      输入0(左边个球队)或1(右边个球对)<input type="text" id="buytwoteam_id"></input>
+      <br></br>
+      购买注数 <input type="text" id="buytwoteam_number"></input>
+      <br></br>
+      场次ID <input type="text" id="buytwoteam_ccid"></input>
+      <br></br>
+      单注价格 <input type="text" id="buytwoteam_price"></input>
+      <br></br>
+
+
+
+
+
+      <button class="btn btn-primary" id="playOneUser"  type="button">分享玩法一中奖名单</button>
+      <br></br>
+        前三名编号','隔开 <input type="text" id="playOneTeamNum"></input>
+      <br></br>
+
+      <button class="btn btn-primary" id="playTwoUser" type="button">分享玩法二中奖名单</button>
+      <br></br>
+      获胜编号<input type="text" id="playTwoUser_txt"></input>
+      <br></br>
+      场次ID<input type="text" id="playTwoUsertNumber_txt"></input>
+      <br></br>
+
+      <button class="btn btn-primary" id="sharePooList" type="button">奖金分配记录</button>
+      <br></br>
+
+
+      <button class="btn btn-primary" id="gettraddingOne" type="button">获取玩法一交易记录</button>
+      <br></br>
+      用户输入的地址(没输入默认出入{}) <input type="text" id="gettraddingOne_address"></input>
+      <br></br>
+      开始值(最小为0) <input type="text" id="gettraddingOne_begin"></input>
+      <br></br>
+      结束值(查询全部输入latest) <input type="text" id="gettraddingOne_latest"></input>
+      <br></br>
+
+      <button class="btn btn-primary" id="getTraddingTwo" type="button">获取玩法二交易记录</button>
+      <br></br>
+      用户输入的地址(没输入默认出入{}) <input type="text" id="gettraddingTwo_address"></input>
+      <br></br>
+      开始值(最小为0) <input type="text" id="gettraddingTwo_begin"></input>
+      <br></br>
+      结束值(查询全部输入latest) <input type="text" id="gettraddingTwo_latest"></input>
+      <br></br>
+
+
+
+
+
+
+
+
+
+
+      <button class="btn btn-primary" id="getteam" type="button">查询玩法里面的所有比赛</button>
+      <br></br>
+      玩法类型(1,2) <input type="text" id="getteam_txt"></input>
+      <br></br>
+
+     <button class="btn btn-primary" id="getfootable" type="button">查询本场比赛数据</button>
+      <br></br>
+      场次ID <input type="text" id="getfootable_txt"></input>
+      <br></br>
+
+      <button class="btn btn-primary" id="stopGame" type="button">设置某场结束</button>
+       <br></br>
+       场次ID <input type="text" id="stopGame_txt"></input>
+       <br></br>
+
+      <button class="btn btn-primary" id="getpool" type="button">查询奖金池</button>
+      <!-- <br></br> -->
+      <!-- 场次ID','隔开<input type="text" id="getpool_txt"></input> -->
+      <br></br>
+
+
+      <!-- <button class="btn btn-primary" id="charge" type="button">设置手续费</button>
+      <br></br>
+      手续费百分比 <input type="text" id="charge_price"></input>
+      <br></br> -->
+
+      <!-- <button class="btn btn-primary" id="sharepool" type="button">分享奖金池</button>
+      <br></br> -->
+
+      <!-- <button class="btn btn-primary" id="sharesprice" type="button">批量分享奖金</button>
+      <br></br>
+      用户中奖','隔开 <input type="text" id="sharesprice_Address"></input>
+      <br></br>
+      单价 <input type="text" id="sharesprice_eth"></input>
+      <br></br>
+      用户购买注数','隔开 <input type="text" id="sharesprice_num"></input>
+
+      <br></br>
+      场次ID <input type="text" id="sharesprice_gameId"></input>
+      <br></br>
+      玩法类型(1，2) <input type="text" id="sharesprice_type"></input>
+      <br></br> -->
+
+      <button class="btn btn-primary" id="teamPrice" type="button">设置某场比赛球队价格</button>
+      <br></br>
+      参赛球队编号','隔开 <input type="text" id="teamPrice_Number"></input>
+      <br></br>
+      参赛球队价格(ETH)','隔开 <input type="text" id="teamPrice_eth"></input>
+      <br></br>
+      场次ID <input type="text" id="teamPrice_id"></input>
+      <br></br>
+
+
+      </div>
+ </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/jquery-1.10.2.js" ></script>
+    <script src="js/loading.js"></script>
+    <script>
+
+
+    </script>
+  </body>
+</html>

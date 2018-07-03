@@ -1,0 +1,142 @@
+.list .wrapper {
+	margin-top:30px;
+}
+.list .sort {
+	background:#32aadf;
+	padding-left:30px;
+	line-height:34px;
+}
+.list .teams {
+	padding:20px 0;
+}
+.list .team {
+	margin-left:10px;
+	border:1px solid #e5e5e5;
+	padding:20px 0 15px 4px;
+	width:224px;
+}
+.list .team.active {
+	border:1px solid #f03e3e;
+}
+.list .zhu {
+	height:26px;
+	line-height:26px;
+}
+.list .zhu1 {
+	background:url(../images/top1.png) no-repeat;
+	padding-left:20px;
+	width:70px;
+	height:26px;
+}
+.list .zhu2 {
+	background:url(../images/top2.png) no-repeat;
+	padding-left:20px;
+	width:70px;
+	height:26px;
+}
+.list .zhu3 {
+	background:url(../images/top3.png) no-repeat;
+	padding-left:20px;
+	width:70px;
+	height:26px;
+}
+.total {
+	margin-top:60px;
+	/* padding-bottom:228px;  */
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:0;
+	z-index:10;
+	background:#fff;
+}
+.total .wrapper {
+	line-height:52px;
+}
+.total .status {
+	height:122px;
+	line-height:52px;
+	padding:35px 30px;
+}
+.total .checklist {
+	margin-left:30px;
+}
+.total .zhu1 {
+	background:url(../images/top1.png) 0 15px no-repeat;
+	padding-left:36px;
+	margin-right:40px;
+	/* height:52px; */
+}
+.total .zhu1 .lazy {
+	background:url(../images/top1bg.png) no-repeat;
+	width:90px;
+	height:52px;
+}
+.stance {
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+.total .zhu2 {
+	background:url(../images/top2.png) 0 15px no-repeat;
+	padding-left:36px;
+	margin-right:40px;
+	/* height:52px; */
+}
+.total .zhu2 .lazy {
+	background:url(../images/top2bg.png) no-repeat;
+	width:90px;
+	height:52px;
+}
+.total .zhu3 {
+	background:url(../images/top3.png) 0 15px no-repeat;
+	padding-left:36px;
+	margin-right:40px;
+	/* height:52px; */
+}
+.total .zhu3 .lazy {
+	background:url(../images/top3bg.png) no-repeat;
+	width:90px;
+	height:52px;
+}
+.total p {
+	/* height:52px;
+	line-height:52px; */
+	text-align:center;
+	margin-top:5px;
+}
+.cash {
+	height:70px;
+	line-height:50px;
+	padding:10px 30px;
+	border-top:1px solid #e5e5e5;
+}
+.cash span {
+	height:50px;
+	line-height:50px;
+}
+.cash .money span {
+	font-size:30px;
+}
+.cash input {
+	height:48px;
+	border:1px solid #e5e5e5;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	text-align:center;
+	margin:0 20px;
+	width:150px;
+}
+.cash .buy {
+	width:150px;
+	background:#f03e3e;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	cursor: pointer;
+}
+.list {padding-bottom:242px;}

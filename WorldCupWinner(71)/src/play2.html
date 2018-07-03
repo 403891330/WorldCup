@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>2018竞猜世界杯</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+		<link href="css/play2.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="top rela bgfff">
+       <div class="wrapper rela">
+           <img src="images/logo.png" alt="" class="abs logo">
+           <div class="nav clearfix1 ft16 c666">
+               <a class="fl item" href="index.html">首页</a>
+               <a class="fl item" href="deal.html">购买记录</a>
+               <a class="fl item" href="record.html">中奖纪录</a>
+               <div class="fr total bold ft14"><em class="name fl ft14">总奖金池</em><span class="bold cfff ml10 fl"><em id="createteam" class="ft20">0</em><em class="ft12">ETH</em></span> </div>
+           </div>
+       </div>
+    </div>
+
+<div class="list">
+  <div class="wrapper">
+      <div class="title">2018赛季竞猜赛程</div>
+     <div class="content">
+
+     </div>
+  </div>
+</div>
+<!-- <div class="bottom ftc">
+    <p class="mt20"><img src="images/con1.png" alt=""><img class="ml10" src="images/con2.png" alt=""></p>
+    <p class="mt10">联系我们</p>
+    <p class="mt10">Copyright 2018 © WorldCup | 募捐: 0x78d9de056ae45cdbd22f0111ecc7d</p>
+</div> -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/jquery-1.10.2.js" ></script>
+    <script src="js/loading.js"></script>
+
+<script>
+function getTeamInfoById(teamid)
+{
+  for (var i = 0; i < teamsJson.length; i++) {
+    var obj = teamsJson[i];
+    if (obj.id == teamid) {
+      return obj;
+    }
+  }
+}
+function appendData(idteam,total_price, left_info,rihgt_info,time){
+  var html = "";
+  html = '<div class="items clearfix1 bgfff" data-id='+idteam+'>'
+            +'<div class="fl team rela" data-id='+left_info.id+'_0>'
+            +'<div class="teamnation">'
+            +'<div class="img ftc">'
+            +'<img src=images/'+left_info.id+'_img.png alt="">'
+            +'</div>'
+            +'<p class="ftc ft18 mt10" >'+left_info.c_name+'</p>'
+            +'<p class="price cf0 ft14 ftc mt10">竞猜价: <span class="cash">'+(web3.fromWei(left_info.price,'ether'))+'</span>ETH</p>'
+            +'</div>'
+            +'<div class="clearfix1 num pl10 mt20 ft14 ftc"><span class="fl">注数</span><input class="fl ftc ft18" onkeyup="value=value.replace(/[^0-9]/ig,\'\')" type="text" value="1"><span class="buy fl cfff ">购买</span></div>'
+            +'</div>'
+            +'<div class="fl vs ftc">'
+            +'<p class="ft14 mt20">'+time+' 开赛</p>'
+            +'<img class="mt20" src="images/vs.png" alt="">'
+            +'<p class="mt5 cfff"><span class="status">竞猜中</span></p>'
+            +'<p class="ftc mt15 cfff"><span class="cash ft14 bold ">奖金池<em class="ft16 ml5">'+(web3.fromWei(total_price,'ether'))+'</em>ETH</span></p>'
+            +'</div>'
+            +'<div class="fr team" data-id='+rihgt_info.id+'_1>'
+            +'<div class="teamnation">'
+            +'<div class="img ftc">'
+            +'<img src=images/'+rihgt_info.id+'_img.png alt="">'
+            +'</div>'
+            +'<p class="ftc ft18 mt10">'+rihgt_info.c_name+'</p>'
+            +'<p class="price cf0 ft14 ftc mt10">竞猜价: <span class="cash">'+(web3.fromWei(rihgt_info.price,'ether'))+'</span>ETH</p>'
+            +'</div>'
+            +'<div class="clearfix1 num pl10 mt20 ft14 ftc"><span class="fl">注数</span><input class="fl ftc ft18" onkeyup="value=value.replace(/[^0-9]/ig,\'\')" type="text" value="1"><span class="buy fl cfff ">购买</span></div>'
+            +'</div>'
+            +'</div>';
+            $(".list .content").append(html);
+
+}
+function getData(){
+  //加载菊花
+  loading();
+  App.getGameListFun(2).then(function(result){
+    // console.log(result,111)
+    let arryGameid =  result.split(',');
+      for(var i = 0;i<arryGameid.length;i++) {
+          var idteam = arryGameid[i];
+          App.getListTeamByIdFun(idteam).then(function(result1){
+            let arryData = result1.toString().split(',');
+            // ["440000000000000000", "100", "106", "220000000000000000",
+            // "250000000000000000", "2", "true", "1530026402"]
+
+            //是否在进行 true 是
+            var status = arryData[6];
+            if(status)
+            {
+              //取出比赛球队编号
+              var left_id  = arryData[1];
+              var left_info = getTeamInfoById(left_id);
+              var right_id = arryData[2];
+              var rihgt_info = getTeamInfoById(right_id);
+
+              //取出比赛球队价格
+              left_info.price  = arryData[3];
+              rihgt_info.price = arryData[4];
+
+              //开始时间
+              var time = new Date(parseInt(arryData[7]) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+
+              //当前总价
+              var total_price = arryData[0];
+             appendData(idteam,total_price, left_info,rihgt_info,time);
+            }
+          });
+          //隐藏菊花
+          hiddenLoading();
+        }
+      }).catch(function(){
+    });
+  }
+
+ App.init().then(function(result){
+   //拉取奖金池
+    getPool();
+    //拉取数据
+    getData();
+ });
+ ///拉取奖金池
+ function getPool() {
+   App.getPoolNew().then(function(result){
+     // console.log(result.c[0],"1111")
+      $("#createteam").text(web3.fromWei(result,'ether')) ;
+   });
+ }
+
+$(document).on("click",".team .buy",function(){
+   var teamid = $(this).parents(".team").attr("data-id").split('_')[1];
+   var gameid = $(this).parents(".items").attr("data-id");
+   var num = $(this).parent().find('input').val();
+   var cash = $(this).parents(".team").find(".cash").text();
+   App.buyTeamTwoFun(teamid,gameid,num,cash).then(function(result){
+     alert("购买成功");
+     //重新刷新当前界面
+     window.location.reload();
+
+   });
+});
+    function loading()
+    {
+      $('body').loading({
+        loadingWidth:240,
+        title:'加载中...',
+        name:'play2',
+        discription:'',
+        direction:'column',
+        type:'origin',
+        // originBg:'#71EA71',
+        originDivWidth:40,
+        originDivHeight:40,
+        originWidth:6,
+        originHeight:6,
+        smallLoading:false,
+        loadingMaskBg:'rgba(0,0,0,0.2)'
+      });
+    }
+     function hiddenLoading()
+     {
+        removeLoading('play2');
+     }
+</script>
+
+  </body>
+</html>
