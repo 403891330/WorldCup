@@ -152,7 +152,7 @@ App = {
     getPoolNew:function()
     {
       return new Promise((resolve,reject)=>{
-        App.contracts.TutorialToken. tutorialTokenInstance.getBonusPoolTotal().then(function(result) {
+        App.contracts.TutorialToken.tutorialTokenInstance.getBonusPoolTotal().then(function(result) {
          resolve(result.toNumber());
         }).catch(function(err) {
           reject(err);
