@@ -34,9 +34,9 @@ App = {
   return  new Promise ((resolve,reject)=>{
       var metacoin = web3.eth.contract(App.initABI);//.at(address);
       App.contracts.TutorialToken = metacoin.at(App.adr);
-      App.contracts.TutorialToken.getBonusPoolTotal(function(error, result){
-        console.log(result);
-      });
+      // App.contracts.TutorialToken.getBonusPoolTotal(function(error, result){
+      //   console.log(result);
+      // });
     // $.getJSON('WorldCupWinner.json', function(data) {
     //   // Get the necessary contract artifact file and instantiate it with truffle-contract.
     //   var TutorialTokenArtifact = data;
@@ -278,17 +278,15 @@ App = {
   getGameListFun:function(type)
   {
     return new Promise((resolve,reject)=> {
-      var tutorialTokenInstance;
-      App.contracts.TutorialToken.deployed().then(function(instance) {
-          tutorialTokenInstance = instance;
-          return tutorialTokenInstance.getListTeamByPlayType(type);
-    }).then(function(result) {
-      //0 要移除第一个数据
-       result = result.splice(1);
-        resolve(result.toString());
-    }).catch(function(err) {
-      reject(err);
-    });
+     App.contracts.TutorialToken.getListTeamByPlayType(type,function(err,result){
+       if (!err) {
+         //0 要移除第一个数据
+          result = result.splice(1);
+           resolve(result.toString());
+       }else {
+         reject(err);
+       }
+     });
     });
 },
 
@@ -386,26 +384,25 @@ App = {
       buyTeamTwoFun:function(index,gameid,num,price)
       {
         return new Promise((resolve,reject)=>{
-        var tutorialTokenInstance;
         web3.eth.getAccounts(function(error, accounts) {
           if (error) {
             console.log(error);
           }
           var account = accounts[0];
-
-          App.contracts.TutorialToken.deployed().then(function(instance) {
-            tutorialTokenInstance = instance;
-            num =  parseInt(num);
-            var initPrice = web3.toWei(price *num)
-            //加上5%的手续费
-            var total =  initPrice * 0.05 + initPrice *1 ;
-            var price_to = web3.toWei(price);
-            return tutorialTokenInstance.buyTwo(parseInt(index), parseInt(gameid), num,price_to,{from: account, value:total , gas:700000});
-          }).then(function(result) {
-            resolve(result);
-          }).catch(function(err) {
-            reject(err);
+          num =  parseInt(num);
+          var initPrice = web3.toWei(price *num)
+          //加上5%的手续费
+          var total =  initPrice * 0.05 + initPrice *1 ;
+          var price_to = web3.toWei(price);
+          App.contracts.TutorialToken.buyTwo(parseInt(index), parseInt(gameid), num,price_to,{from: account, value:total , gas:700000},function(err,result){
+            if (!err) {
+              resolve(result);
+            }
+            else {
+              reject(err);
+            }
           });
+
         });
         });
       },
