@@ -131,7 +131,6 @@ App = {
 
   creatteamList:function(teams, tPrice, createType,beginTime)
   {
-    var tutorialTokenInstance;
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
@@ -153,16 +152,11 @@ App = {
     getPoolNew:function()
     {
       return new Promise((resolve,reject)=>{
-      var tutorialTokenInstance;
-      App.contracts.TutorialToken.deployed().then(function(instance) {
-        tutorialTokenInstance = instance;
-        return tutorialTokenInstance.getBonusPoolTotal();
-      }).then(function(result) {
-       // return web3.toWei(result,'ether');
-       resolve(result.toNumber());
-      }).catch(function(err) {
-        reject(err);
-      });
+        App.contracts.TutorialToken. tutorialTokenInstance.getBonusPoolTotal().then(function(result) {
+         resolve(result.toNumber());
+        }).catch(function(err) {
+          reject(err);
+        });;
     });
   },
 
