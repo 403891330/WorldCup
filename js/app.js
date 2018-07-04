@@ -23,11 +23,6 @@ App = {
         console.log(error);
       }
       var account = accounts[0];
-      var gas = 700000;
-      if(createType == 1)
-      {
-         gas =  gas *2.5;
-      }
       console.log(App.account);
 
     });
