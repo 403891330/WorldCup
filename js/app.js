@@ -147,11 +147,14 @@ App = {
     getPoolNew:function()
     {
       return new Promise((resolve,reject)=>{
-        App.contracts.TutorialToken.getBonusPoolTotal().then(function(result) {
-         resolve(result.toNumber());
-        }).catch(function(err) {
-          reject(err);
-        });;
+        App.contracts.TutorialToken.getBonusPoolTotal(function(err,result){
+          if (!err) {
+            resolve(result.toNumber());
+          }
+          else {
+              reject(err);
+          }
+        });
     });
   },
 
@@ -853,12 +856,4 @@ App = {
       });
     });
   }
-
 };
-
-$(function() {
-  $(window).load(function() {
-    App.init();
-    //App.creatteamList();
-  });
-});
