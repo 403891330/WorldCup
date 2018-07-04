@@ -1,6 +1,8 @@
 App = {
   web3Provider: null,
   contracts: {},
+  initABI:[{"constant":true,"inputs":[{"name":"_gameID","type":"uint256"}],"name":"getPool","outputs":[{"name":"bounsp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"games","outputs":[{"name":"_bouns","type":"uint256"},{"name":"_playType","type":"uint256"},{"name":"_stop","type":"bool"},{"name":"_beginTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"bstop","type":"bool"},{"name":"gameID","type":"uint256"}],"name":"setTeamStatus","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_gameID","type":"uint256"},{"name":"_one","type":"uint256"},{"name":"_two","type":"uint256"},{"name":"_three","type":"uint256"},{"name":"_buyCount","type":"uint256"},{"name":"buyPrice","type":"uint256"}],"name":"buy","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"_gameID","type":"uint256"}],"name":"getListTeam","outputs":[{"name":"_bouns","type":"uint256"},{"name":"_teams","type":"uint256[]"},{"name":"_teamPrice","type":"uint256[]"},{"name":"_playType","type":"uint256"},{"name":"_stop","type":"bool"},{"name":"_beginTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getBonusPoolTotal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"winner","type":"address[]"},{"name":"amount","type":"uint256[]"},{"name":"_gameID","type":"uint256"},{"name":"_buyerType","type":"uint256"},{"name":"amount_total","type":"uint256"}],"name":"batchShareAmount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"destroy","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_teams","type":"uint256[]"},{"name":"_tPrice","type":"uint256[]"},{"name":"gameID","type":"uint256"}],"name":"setTeamPrice","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"winner","type":"address"},{"name":"amount","type":"uint256"},{"name":"_buyerType","type":"uint256"},{"name":"_gameID","type":"uint256"}],"name":"shareAmount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_teams","type":"uint256[]"},{"name":"_tPrice","type":"uint256[]"},{"name":"_gameType","type":"uint256"},{"name":"_beginTime","type":"uint256"}],"name":"createGame","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_one","type":"uint256"},{"name":"_gameID","type":"uint256"},{"name":"_buyCount","type":"uint256"},{"name":"_buyPrice","type":"uint256"}],"name":"buyTwo","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"_gameType","type":"uint256"}],"name":"getListTeamByPlayType","outputs":[{"name":"teamIDss","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"buyer","type":"address"},{"indexed":true,"name":"traddingTime","type":"uint256"},{"indexed":false,"name":"first","type":"uint256"},{"indexed":false,"name":"second","type":"uint256"},{"indexed":false,"name":"three","type":"uint256"},{"indexed":false,"name":"gameid","type":"uint256"},{"indexed":false,"name":"buyType","type":"uint256"},{"indexed":false,"name":"buyTotal","type":"uint256"},{"indexed":false,"name":"buyPrice","type":"uint256"}],"name":"BuyWinner","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"first","type":"uint256"},{"indexed":true,"name":"second","type":"uint256"},{"indexed":true,"name":"third","type":"uint256"},{"indexed":false,"name":"buyer","type":"address"},{"indexed":false,"name":"traddingTime","type":"uint256"},{"indexed":false,"name":"gameid","type":"uint256"},{"indexed":false,"name":"buyType","type":"uint256"},{"indexed":false,"name":"buyTotal","type":"uint256"},{"indexed":false,"name":"buyPrice","type":"uint256"}],"name":"BuyWinnerList","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"buyer","type":"address"},{"indexed":true,"name":"first","type":"uint256"},{"indexed":true,"name":"gameid","type":"uint256"},{"indexed":false,"name":"traddingTime","type":"uint256"},{"indexed":false,"name":"buyType","type":"uint256"},{"indexed":false,"name":"buyPrice","type":"uint256"},{"indexed":false,"name":"buyTotal","type":"uint256"}],"name":"BuyWinnerTwo","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"buyer","type":"address"},{"indexed":true,"name":"traddingTime","type":"uint256"},{"indexed":true,"name":"buyerType","type":"uint256"},{"indexed":false,"name":"gameID","type":"uint256"},{"indexed":false,"name":"remainingAmount","type":"uint256"}],"name":"ShareBonus","type":"event"}],
+  adr:"0x53F671AEF0A803085F6e3A6C215Dd88454394F3e",
   init: function() {
     return App.initWeb3();
   },
@@ -9,35 +11,52 @@ App = {
     // Initialize web3 and set the provider to the testRPC.
     if (typeof web3 !== 'undefined') {
       App.web3Provider = web3.currentProvider;
-      web3 = new Web3(web3.currentProvider);
+
     } else {
       // set the provider you want from Web3.providers
-      App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
-      web3 = new Web3(App.web3Provider);
+      App.web3Provider = new Web3.providers.HttpProvider('https://mainnet.infura.io/qxI3PTk3nnMi6XHDxDxx');
+      // web3 = new Web3(App.web3Provider);
     }
+    web3 = new Web3(App.web3Provider);
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+      var gas = 700000;
+      if(createType == 1)
+      {
+         gas =  gas *2.5;
+      }
+      console.log(App.account);
+
+    });
 
     return App.initContract();
   },
 
   initContract: function() {
   return  new Promise ((resolve,reject)=>{
-  $.getJSON('WorldCupWinner.json', function(data) {
-    // Get the necessary contract artifact file and instantiate it with truffle-contract.
-    var TutorialTokenArtifact = data;
-    App.contracts.TutorialToken = TruffleContract(TutorialTokenArtifact);
+      var metacoin = web3.eth.contract(App.initABI);//.at(address);
+      App.contracts.TutorialToken = metacoin.at(App.adr);
+      App.contracts.TutorialToken.getBonusPoolTotal(function(error, result){
+        console.log(result);
+      });
+    // $.getJSON('WorldCupWinner.json', function(data) {
+    //   // Get the necessary contract artifact file and instantiate it with truffle-contract.
+    //   var TutorialTokenArtifact = data;
+    //   App.contracts.TutorialToken = TruffleContract(TutorialTokenArtifact);
+    //
+    //   // Set the provider for our contract.
+    //   App.contracts.TutorialToken.setProvider(App.web3Provider);
 
-    // Set the provider for our contract.
-    App.contracts.TutorialToken.setProvider(App.web3Provider);
-
-    // Use our contract to retieve and mark the adopted pets.
-    resolve();
-    return App.bindEvents();
-  });
-
-  });
-
-
+      // Use our contract to retieve and mark the adopted pets.
+      resolve();
+      return App.bindEvents();
+      })
+    // })
   },
+
 
   bindEvents: function() {
   //创建比赛
@@ -123,14 +142,9 @@ App = {
       {
          gas =  gas *2.5;
       }
-      App.contracts.TutorialToken.deployed().then(function(instance) {
-        tutorialTokenInstance = instance;
-        return tutorialTokenInstance.createGame(teams, tPrice, createType,beginTime, {from: account, gas:gas});
-      }).then(function(result) {
-        alert('创建比赛成功!');
-      }).catch(function(err) {
-        alert(err.message);
-      });
+      console.log(App.account);
+      App.contracts.TutorialToken.createGame(teams, tPrice, createType,beginTime, {from: account, gas:gas});
+
     });
   },
 
