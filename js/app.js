@@ -384,7 +384,8 @@ App = {
         }else {
           console.log(err.message);
         }
-    },
+    })
+  },
 
     getTraddingTwoFun:function(address,start,end)
     {
