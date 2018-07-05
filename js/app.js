@@ -209,6 +209,7 @@ App = {
      App.contracts.TutorialToken.getListTeamByPlayType(type,function(err,result){
        if (!err) {
          //0 要移除第一个数据
+          result = result.splice(0);
           result = result.splice(1);
            resolve(result.toString());
        }else {
