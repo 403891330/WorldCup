@@ -103,46 +103,45 @@ function appendData(idteam,total_price, left_info,rihgt_info,time){
 function getData(){
   //加载菊花
   loading();
-  App.getGameListFun(2).then(function(result){
-    // console.log(result,111)
-    let arryGameid =  result.split(',');
-      for(var i = 0;i<arryGameid.length;i++) {
-          var idteam = arryGameid[i];
-          App.getListTeamByIdFun(idteam).then(function(result1){
-            let arryData = result1.toString().split(',');
-            // ["440000000000000000", "100", "106", "220000000000000000",
-            // "250000000000000000", "2", "true", "1530026402"]
+  App.getGameListFun(2,function(err,result){
+  if(!err)
+   {
+     let arryGameid =  result.split(',');
+     for(var i = 0;i<arryGameid.length;i++) {
+           var idteam = arryGameid[i];
+           App.getListTeamByIdFun(idteam,function(err,result1){
+             if(!err)
+             {
+               let arryData = result1.toString().split(',');
+               //是否在进行 true 是
+               var status = arryData[6];
+               if(status)
+               {
+                 //取出比赛球队编号
+                 var left_id  = arryData[1];
+                 var left_info = getTeamInfoById(left_id);
+                 var right_id = arryData[2];
+                 var rihgt_info = getTeamInfoById(right_id);
 
-            //是否在进行 true 是
-            var status = arryData[6];
-            if(status)
-            {
-              //取出比赛球队编号
-              var left_id  = arryData[1];
-              var left_info = getTeamInfoById(left_id);
-              var right_id = arryData[2];
-              var rihgt_info = getTeamInfoById(right_id);
+                 //取出比赛球队价格
+                 left_info.price  = arryData[3];
+                 rihgt_info.price = arryData[4];
 
-              //取出比赛球队价格
-              left_info.price  = arryData[3];
-              rihgt_info.price = arryData[4];
+                 //开始时间
+                 var time = new Date(parseInt(arryData[7]) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
 
-              //开始时间
-              var time = new Date(parseInt(arryData[7]) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+                 //当前总价
+                 var total_price = arryData[0];
+                appendData(idteam,total_price, left_info,rihgt_info,time);
+               }
+             }
+           });
+         }
+       }
+     })
+   }
 
-              //当前总价
-              var total_price = arryData[0];
-             appendData(idteam,total_price, left_info,rihgt_info,time);
-            }
-          });
-          //隐藏菊花
-          hiddenLoading();
-        }
-      }).catch(function(){
-    });
-  }
-
- App.init().then(function(result){
+ App.init(function(err,result){
    //拉取奖金池
     getPool();
     //拉取数据
@@ -150,9 +149,8 @@ function getData(){
  });
  ///拉取奖金池
  function getPool() {
-   App.getPoolNew().then(function(result){
-     // console.log(result.c[0],"1111")
-      $("#createteam").text(web3.fromWei(result,'ether')) ;
+   App.getPoolNew(function(err,result){
+       $("#createteam").text(web3.fromWei(result,'ether')) ;
    });
  }
 
@@ -161,11 +159,13 @@ $(document).on("click",".team .buy",function(){
    var gameid = $(this).parents(".items").attr("data-id");
    var num = $(this).parent().find('input').val();
    var cash = $(this).parents(".team").find(".cash").text();
-   App.buyTeamTwoFun(teamid,gameid,num,cash).then(function(result){
-     alert("购买成功");
-     //重新刷新当前界面
-     window.location.reload();
-
+   App.buyTeamTwoFun(teamid,gameid,num,cash,function(err,result){
+     if(!err)
+     {
+       alert("购买成功");
+       //重新刷新当前界面
+       window.location.reload();
+     }
    });
 });
     function loading()

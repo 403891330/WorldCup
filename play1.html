@@ -87,21 +87,24 @@
 
     function getData(){
       loading();
-      App.getGameListFun(1).then(function(result){
-            App.getListTeamByIdFun(result).then(function(result1){
+      App.getGameListFun(1,function(err,result){
+        if(!err)
+        {
+          App.getListTeamByIdFun(result,function(err,result1){
+            if (!err) {
               //计算总注数
-              App.getTraddingOneFun("","0","latest").then(function(resultHistory){
-                //传入所有队伍，所有购买历史
-                orderGroup(result1,resultHistory);
-              }).catch(function(err){
-                console.log(err.message);
+              App.getTraddingOneFun("","0","latest",function(err,resultHistory){
+                if (!err) {
+                  //传入所有队伍，所有购买历史
+                  orderGroup(result1,resultHistory);
+                }
               });
-
-            });
-          }).catch(function(){
-      });
+            }
+          });
+        }
+      })
     }
-    App.init().then(function(result){
+    App.init(function(err,result){
       //拉取奖金池
        getPool();
       //拉取数据
@@ -255,10 +258,9 @@
       }
       ///拉取奖金池
       function getPool() {
-        App.getPoolNew().then(function(result){
-          // console.log(result.c[0],"1111")
-           $("#createteam").text(web3.fromWei(result,'ether')) ;
-        });
+        App.getPoolNew(function(err,result){
+          $("#createteam").text(web3.fromWei(result,'ether')) ;
+        })
       }
       //输入值变化
       // function ChangValue (obj)
@@ -344,14 +346,17 @@
             alert("购买注数必须大于0!");
             return ;
           }
-          App.buyTeamOneFun(0,team1,team2,team3,number,totalPrice).then(function(result){
-            alert("购买成功");
-            //重新刷新当前界面
-            window.location.reload();
-            //菊花
-            loading();
-          }).catch(function(err){
-            console.log(err.message);
+          App.buyTeamOneFun(0,team1,team2,team3,number,totalPrice,function(err,result){
+            if (!err) {
+              alert("购买成功");
+              //重新刷新当前界面
+              window.location.reload();
+              //菊花
+              loading();
+            }
+            else {
+              console.log(err.message);
+            }
           });
       }
     };

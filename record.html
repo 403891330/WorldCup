@@ -63,7 +63,7 @@
     var listTeam = new Array();
     //玩法二的数据
     var listTwo = new Array();
-    App.init().then(function(result){
+    App.init(function(){
       //拉取奖金池
       getPool();
       var address = "";
@@ -75,8 +75,8 @@
     });
     ///拉取奖金池
     function getPool() {
-      App.getPoolNew().then(function(result){
-        $("#createteam").text(web3.fromWei(result));
+      App.getPoolNew(function(err,result){
+          $("#createteam").text(web3.fromWei(result,'ether')) ;
       });
     }
     // 获取比赛球队
@@ -137,22 +137,25 @@
             proseArry.push(prose);
          }
          //全部执行完回调 全是玩法二的回调
-         Promise.all(proseArry).then(function(result){
-           for (var i = 0; i < result.length; i++) {
-           let infoGame = result[i];
-            //拿到 两个球队编号
-           let teamId =   infoGame[1].toString().split(',')
-           //第一个 +    //第二个
-           let name = catchData(teamId[0]) +'、'+ catchData(teamId[1]) ;
-            listTwo[i]['name'] =  name;
-          }
-           //把玩法二装进去
-           for (var i = 0; i < listTwo.length; i++) {
-              listTeam.push(listTwo[i]);
+         Promise.all(proseArry,function(err,result){
+           if(!err)
+           {
+             for (var i = 0; i < result.length; i++) {
+             let infoGame = result[i];
+              //拿到 两个球队编号
+             let teamId =   infoGame[1].toString().split(',')
+             //第一个 +    //第二个
+             let name = catchData(teamId[0]) +'、'+ catchData(teamId[1]) ;
+              listTwo[i]['name'] =  name;
+            }
+             //把玩法二装进去
+             for (var i = 0; i < listTwo.length; i++) {
+                listTeam.push(listTwo[i]);
+             }
+             //玩法一、二的数据
+             bidingData();
            }
-           //玩法一、二的数据
-           bidingData();
-         });
+         })
       }
       //只有玩法一的数据
       else
@@ -199,9 +202,9 @@
       listTwo = new Array();
       listTeam =  new Array();
       loading();
-      App.ShareBonusFun(address,0,'latest').then(function(result){
-        getTeam(result);
-      });
+      App.ShareBonusFun(address,0,'latest',function(err,result){
+          getTeam(result);
+      })
     }
     function loading()
     {
