@@ -123,7 +123,7 @@ App = {
         console.log(error);
       }
       var account = accounts[0];
-      App.contracts.TutorialToken.createGame(teams, tPrice, createType,beginTime, {from: account, gas:gas},function(){});
+      App.contracts.TutorialToken.createGame(teams, tPrice, createType,beginTime, {from: account, gas:App.gas},function(){});
     });
   },
 
@@ -183,7 +183,7 @@ App = {
       }
       var account = accounts[0];
 
-      App.contracts.TutorialToken(teams,tPrice,gameid, {from: account, gas:gas},function(){});
+      App.contracts.TutorialToken(teams,tPrice,gameid, {from: account, gas:App.gas},function(){});
 
     });
   },
@@ -277,7 +277,7 @@ App = {
          //加上5%的手续费
          var totalPrice = (initPrice * 0.05) +  initPrice * 1;
          let count = parseInt(buyCount);
-        App.contracts.TutorialToken.buy( parseInt(gameid), parseInt(one), parseInt(two), parseInt(three),  parseInt(count) ,totalPrice, {from: account, value: totalPrice, gas:gas},function(err,result){
+        App.contracts.TutorialToken.buy( parseInt(gameid), parseInt(one), parseInt(two), parseInt(three),  parseInt(count) ,totalPrice, {from: account, value: totalPrice, gas:App.gas},function(err,result){
           if (!err) {
             resolve(result);
           }
@@ -318,7 +318,7 @@ App = {
           //加上5%的手续费
           var total =  initPrice * 0.05 + initPrice *1 ;
           var price_to = web3.toWei(price);
-          App.contracts.TutorialToken.buyTwo(parseInt(index), parseInt(gameid), num,price_to,{from: account, value:total , gas:gas},function(err,result){
+          App.contracts.TutorialToken.buyTwo(parseInt(index), parseInt(gameid), num,price_to,{from: account, value:total , gas:App.gas},function(err,result){
             if (!err) {
               resolve(result);
             }
@@ -356,7 +356,7 @@ App = {
           }
           // 获取事件对象
         let listData  = new Array();
-        var myEventBouns = App.contracts.TutorialToken.BuyWinner(adr, {fromBlock: start, toBlock: end, gas:gas});//{curOwner: App.loginaccount}, 'latest'
+        var myEventBouns = App.contracts.TutorialToken.BuyWinner(adr, {fromBlock: start, toBlock: end, gas:App.gas});//{curOwner: App.loginaccount}, 'latest'
         myEventBouns.watch(function(err, result) {
           if (!err) {
               let info =  result['args'];
@@ -528,7 +528,7 @@ App = {
       return new Promise ((resolve,reject)=>{
         web3.eth.getAccounts(function(error, accounts) {
           var account = accounts[0];
-        App.contracts.TutorialToken.batchShareAmount(winers,amounts,gameId,type,total,{from: account, gas:gas},function(err,result){
+        App.contracts.TutorialToken.batchShareAmount(winers,amounts,gameId,type,total,{from: account, gas:App.gas},function(err,result){
           if(!err)
           {
             resolve(result);
@@ -754,7 +754,7 @@ App = {
       return new Promise((resolve,reject)=> {
         web3.eth.getAccounts(function(error, accounts) {
         var account = accounts[0];
-        App.contracts.TutorialToken.setTeamStatus(false,gameid,{from: account, gas:gas},function(err,result){
+        App.contracts.TutorialToken.setTeamStatus(false,gameid,{from: account, gas:App.gas},function(err,result){
             if (!err) {
               resolve(result);
             }
