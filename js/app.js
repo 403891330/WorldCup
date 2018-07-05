@@ -210,7 +210,7 @@ App = {
        if (!err) {
          //0 要移除第一个数据
          result = result.splice(1);
-         result = result.splice(2);
+         result = result.splice(1);
            resolve(result.toString());
        }else {
          reject(err);
