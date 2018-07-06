@@ -47,19 +47,21 @@
      <p class="mt10">Copyright 2018 © WorldCup | 募捐: 0x78d9de056ae45cdbd22f0111ecc7d</p>
  </div> -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.min.js" ></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/teams.js"></script>
+    <script src="js/jquery.min.js" ></script>
     <script src="js/front-endPage.js" ></script><!-- 前台分页 -->
     <script src="js/changePage.js"></script>
     <script src="js/loading.js"></script>
     <script>
     //购买数据
     var listData = new Array();
-    App.init(function(){
+    App.init().then(function(result){
+      //拉取奖金池
       getPool();
       var address = "";
       getData(address);
@@ -85,68 +87,63 @@
 
      let twoData = App.getTraddingTwoFun(address,0,'latest');
      let oneData = App.getTraddingOneFun(address,0,'latest');
-     Promise.all([oneData,twoData],function(err,result){
-       if(!err)
-       {
-         //玩法1数据
-         let dataOne = result[0];
-         for (var i = 0; i < dataOne.length; i++) {
-              let dataInfo =  dataOne[i];
-              let gameid = dataInfo['gameid'].toNumber();
-              let buyPrice = dataInfo['buyPrice'].toNumber();
-              let buyTotal = dataInfo['buyTotal'].toNumber();
-              let buyer = dataInfo['buyer'];
-              let first = catchData(dataInfo['first'].toNumber());
-              let second = catchData(dataInfo['second'].toNumber());
-              let three = catchData(dataInfo['three'].toNumber());
-              let traddingTime = dataTime(dataInfo['traddingTime'].toNumber());
-              let gameTeam = first +'、'+ second +'、'+ three;
-              //拼装数据
-              listData.push({adr:buyer,tp:'坚持到底',name:gameTeam,total:web3.fromWei(buyTotal * buyPrice) +'ETH',time:traddingTime});
-         }
+     Promise.all([oneData,twoData]).then(function(result){
+       //玩法1数据
+       let dataOne = result[0];
+       for (var i = 0; i < dataOne.length; i++) {
+            let dataInfo =  dataOne[i];
+            let gameid = dataInfo['gameid'].toNumber();
+            let buyPrice = dataInfo['buyPrice'].toNumber();
+            let buyTotal = dataInfo['buyTotal'].toNumber();
+            let buyer = dataInfo['buyer'];
+            let first = catchData(dataInfo['first'].toNumber());
+            let second = catchData(dataInfo['second'].toNumber());
+            let three = catchData(dataInfo['three'].toNumber());
+            let traddingTime = dataTime(dataInfo['traddingTime'].toNumber());
+            let gameTeam = first +'、'+ second +'、'+ three;
+            //拼装数据
+            listData.push({adr:buyer,tp:'坚持到底',name:gameTeam,total:web3.fromWei(buyTotal * buyPrice) +'ETH',time:traddingTime});
+       }
 
-         //玩法二数据
-         let dataTwo = result[1];
-         let tempData = new Array();
-         let requestData = new Array();
-         for (var i = 0; i < dataTwo.length; i++) {
-             let dataInfo = dataTwo[i]
-             let gameid = dataInfo['gameid'].toNumber();
-             let buyPrice = dataInfo['buyPrice'].toNumber();
-             let buyTotal = dataInfo['buyTotal'].toNumber();
-             let buyer = dataInfo['buyer'];
-             let traddingTime = dataTime(dataInfo['traddingTime'].toNumber());
-             // tempData.push(gameid);
-             requestData.push(App.getListTeamByIdFun(gameid));
-             //拼装数据
-             tempData.push({adr:buyer,tp:'有得必有失',name:"",total:web3.fromWei(buyTotal * buyPrice) +'ETH',time:traddingTime});
-         }
+       //玩法二数据
+       let dataTwo = result[1];
+       let tempData = new Array();
+       let requestData = new Array();
+       for (var i = 0; i < dataTwo.length; i++) {
+           let dataInfo = dataTwo[i]
+           let gameid = dataInfo['gameid'].toNumber();
+           let buyPrice = dataInfo['buyPrice'].toNumber();
+           let buyTotal = dataInfo['buyTotal'].toNumber();
+           let buyer = dataInfo['buyer'];
+           let traddingTime = dataTime(dataInfo['traddingTime'].toNumber());
+           // tempData.push(gameid);
+           requestData.push(App.getListTeamByIdFun(gameid));
+           //拼装数据
+           tempData.push({adr:buyer,tp:'有得必有失',name:"",total:web3.fromWei(buyTotal * buyPrice) +'ETH',time:traddingTime});
+       }
 
-         //请求球队名称
-         Promise.all(requestData,function(err,result){
-           if (!err) {
-             for (var i = 0; i < result.length; i++) {
-               let infoGame = result[i];
-                //拿到 两个球队编号
-               let teamId = infoGame[1].toString().split(',')
-               //第一个 +    //第二个
-               let name = catchData(teamId[0]) +'、'+ catchData(teamId[1]) ;
-                tempData[i]['name'] =  name;
-            }
-            //把玩法二装进去
-            for (var i = 0; i < tempData.length; i++) {
-               listData.push(tempData[i]);
-            }
-            //玩法一、二的数据
-            bidingData();
-           }
-           else {
-             console.log(err.message);
-           }
-         })
-      }else {
-        console.log(err.message);
-      }
+       //请求球队名称
+       Promise.all(requestData).then(function(result){
+         for (var i = 0; i < result.length; i++) {
+           let infoGame = result[i];
+            //拿到 两个球队编号
+           let teamId = infoGame[1].toString().split(',')
+           //第一个 +    //第二个
+           let name = catchData(teamId[0]) +'、'+ catchData(teamId[1]) ;
+            tempData[i]['name'] =  name;
+        }
+        //把玩法二装进去
+        for (var i = 0; i < tempData.length; i++) {
+           listData.push(tempData[i]);
+        }
+        //玩法一、二的数据
+        bidingData();
+
+      });
+
+     }).catch(function(err){
+       console.log(err.message);
+     });
     }
 
     function dataTime(time)
@@ -179,8 +176,8 @@
     }
     ///拉取奖金池
     function getPool() {
-      App.getPoolNew(function(err,result){
-          $("#createteam").text(web3.fromWei(result));
+      App.getPoolNew().then(function(result){
+        $("#createteam").text(web3.fromWei(result));
       });
     }
 
